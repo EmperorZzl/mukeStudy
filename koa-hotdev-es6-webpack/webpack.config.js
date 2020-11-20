@@ -1,20 +1,20 @@
 const path = require('path');
-const utils = require('./utils');
 const nodeExcternals = require('webpack-node-externals');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const webpack = require('webpack');
 
 debugger
 
 const webpackconfig = {
   target: 'node',
+  mode: 'development',
   entry: {
-    server: path.join(utils.APP_PATH, '../src/index.js')
+    server: path.join(__dirname, 'src/index.js')
   },
   output: {
     filename: '[name].bundle.js',
-    path: utils.DIST_PATH,
+    path: path.join(__dirname, 'dist'),
   },
+  devtool: 'eval-source-map',
   module: {
     rules: [
       {
@@ -32,12 +32,6 @@ const webpackconfig = {
   externals: [nodeExcternals()],
   plugins: [
     new CleanWebpackPlugin(),
-    new webpack.DefinePlugin
-      ({
-        'process.env': {
-          NODE_ENV: (process.env.NODE_ENV === 'production' || process.env.NODE_ENV == 'prod') ? "'production'" : "'development'"
-        }
-      })
   ],
   node: {
     console: true,
@@ -51,7 +45,14 @@ const webpackconfig = {
 
   }
 }
-// console.log(webpackconfig);
+console.log(webpackconfig);
 module.exports = webpackconfig;
 
+//查看webpack 配置命令
+// npx node --inspect-brk  ./node_modules/.bin/webpack --config
+//
 
+// module.exports = {
+//   target: 'node',
+//   entry: path.join(__dirname, 'src/index.js')
+// }

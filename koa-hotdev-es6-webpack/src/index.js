@@ -1,9 +1,9 @@
-const Koa = require('koa');
+// const Koa = require('koa');
+import Koa from 'koa';
 const path = require('path');
 const app = new Koa();
 const helmet = require('koa-helmet');
 const statics = require('koa-static');
-
 
 const router = require('./routers/routers');
 

@@ -39,4 +39,104 @@ yarn add clean-webpack-plugin webpack-node-externals -D
 ```javascript
 yarn add @babel/core @babel/node @babel/preset-env babel-loader cross-env -D
 ```
+
 - 之后就是配置webpack 的配置
+- 首先在根目录新建文件webpack.config.js 写入配置：
+
+```javascript
+const path = require('path');
+const nodeExcternals = require('webpack-node-externals');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
+debugger
+
+const webpackconfig = {
+  target: 'node',
+  mode: 'development',
+  entry: {
+    server: path.join(__dirname, 'src/index.js')
+  },
+  output: {
+    filename: '[name].bundle.js',
+    path: path.join(__dirname, 'dist'),
+  },
+  devtool: 'eval-source-map',
+  module: {
+    rules: [
+      {
+        test: /\.m?(js|jsx)$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env']
+          }
+        }
+      }
+    ]
+  },
+  externals: [nodeExcternals()],
+  plugins: [
+    new CleanWebpackPlugin(),
+  ],
+  node: {
+    console: true,
+    global: true,
+    process: true,
+    Buffer: true,
+    _filename: true,
+    _dirname: true,
+    setImmediate: true,
+    path: true,
+
+  }
+}
+console.log(webpackconfig);
+module.exports = webpackconfig;
+
+//查看webpack 配置命令
+// npx node --inspect-brk  ./node_modules/.bin/webpack --config
+//
+
+// module.exports = {
+//   target: 'node',
+//   entry: path.join(__dirname, 'src/index.js')
+// }
+
+```
+
+- 接着执行 npx webpack 看看是否有问题。
+- 接下来在来配置babel ,在根目录下新建文件.babelrc文件写入文件：
+
+```javascript
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "node": "current"
+        }
+      }
+    ]
+  ]
+}
+```
+
+- 接下来可以尝试这改下index.js中es5语法用ES6语法来代替如：
+
+```javascript
+// const Koa = require('koa');
+import Koa from 'koa';
+```
+
+- 接下来如果我们直接运行**node src/index.js**会有es6语法兼容问题，那么我们需要利用我们安装好的babel **npx babel-node src/index.js**,如果我们希望对我们的文件进行监视，可以使用这个命令：**npx nodemon --exec babel-node src/index.js**
+
+## webpack调试，如果配置VSCode调试
+
+- webpack 配置经常出现问题，第一种方式是console.log()方式
+- 使用**npx node --inspect-brk ./node_modules/.bin/webpack**如下：
+
+![终端图片](./assets/1.png)
+
+- 接着我们打开谷歌浏览器chrome://inspect/#devices 就能看见可以调试target

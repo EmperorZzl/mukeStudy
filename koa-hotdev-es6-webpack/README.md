@@ -140,3 +140,48 @@ import Koa from 'koa';
 ![终端图片](./assets/1.png)
 
 - 接着我们打开谷歌浏览器chrome://inspect/#devices 就能看见可以调试target
+
+- 注意：**npm-check-updates包可以帮助我们检查我们安装的包是否有更新**
+
+## webpack优化
+
+- 首先我们新建一个文件index_es6.js 把以前的es5语法替换成es6语法。
+- 由于中间件比较多，需要app.use很多，那么我们可以用koa-compose 合并之后传递给app
+
+```javascript
+// const Koa = require('koa');
+// const path = require('path');
+// const app = new Koa();
+// const helmet = require('koa-helmet');
+// const statics = require('koa-static');
+import Koa from 'koa';
+import path from 'path';
+import helmet from 'helmet';
+import statics from 'koa-static';
+import koaBody from 'koa-body';
+import cors from '@koa/cors';
+import router from './routers/routers';
+import jsonutil from 'koa-json';
+import compose from 'koa-compose';
+
+const app = new Koa();
+/**
+ * 
+ * 使用koa-compose 集成所有的中间件
+ *  */
+const middleware = compose([
+  koaBody(),
+  statics(path.join(__dirname, '../public')),
+  cors(),
+  jsonutil({ pretty: false, param: 'pretty' }),
+  helmet(),
+]);
+
+
+app.use(router())
+app.use(middleware)
+app.listen(3001);
+
+```
+
+- 之后新建目录config,然后新建dev和pro环境的webpack配置 webpack.config.dev.js   webpack.config.dev.js

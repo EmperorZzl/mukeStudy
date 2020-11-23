@@ -5,7 +5,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const webpack = require('webpack');
 
 debugger
-
+console.log('utils.APP_PATH',utils.APP_PATH)
 const webpackconfig = {
   target: 'node',
   entry: {

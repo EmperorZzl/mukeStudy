@@ -17,7 +17,10 @@
 双向绑定的原理，使用到Object.defineproperty
 
 - **Vue.js 特点**
+  - [官网](https://cn.vuejs.org/v2/guide/)
   - 易上手
   - 中文文档、社区发达
   - 大公司都在用
-  
+- **[vue-cli 入门](https://cli.vuejs.org/zh/guide/installation.html)**
+  - npm install -g @vue/cli
+  - npm install -g @vue/cli-service-global

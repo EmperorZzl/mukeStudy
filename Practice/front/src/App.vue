@@ -52,10 +52,15 @@
             @click="getCatcha()"
           ></div>
         </div>
-        <button type="button" class="layui-btn">点击登录</button>
-        <a href="http://www.layui.com" class="imooc-link">忘记密码</a>
+        <button type="button" class="layui-btn" @click="checkForm">点击登录</button>
+        <router-link :to="{name:'About'}"  class="imooc-link">忘记密码</router-link>
       </form>
     </div>
+    <div id="nav">
+      <router-link to="/">Home</router-link>|
+      <router-link to="/about">About</router-link>
+    </div>
+    <router-view />
   </div>
 </template>
 <script>
@@ -76,7 +81,7 @@ export default {
   },
   methods: {
     getCatcha() {
-      axios.get("http://localhost:3001/getCaptcha").then((res) => {
+      axios.get('http://localhost:3001/getCaptcha').then((res) => {
         if (res.status === 200) {
           const obj = res.data;
           if (obj.code === 200) {
@@ -87,6 +92,15 @@ export default {
     },
     checkForm() {
       this.errorMsg = [];
+      if (!this.username) {
+        this.errorMsg.push('用户名为空！');
+      }
+      if (!this.password) {
+        this.errorMsg.push('密码为空');
+      }
+      if (!this.captcha) {
+        this.errorMsg.push('验证码为空');
+      }
     }
   }
 };
@@ -101,6 +115,7 @@ input {
     color: blue;
   }
 }
+
 .svg {
   position: relative;
   top: -15px;

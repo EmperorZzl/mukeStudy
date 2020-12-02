@@ -1,7 +1,7 @@
 import './App.css';
 import MyPromise from './MyPromise/MyPromise';
 import React, { useState, useEffect } from 'react';
-
+import TestComponent from './Subject-Observer/TestComponent'
 
 function App() {
   //做饭
@@ -26,9 +26,13 @@ function App() {
     });
     return p;
   }
+  //promise测试
   useEffect(() => {
     cook()
       .then(eat).then((result) => { console.log(result) });
+
+  }, [])
+  useEffect(() => {
   }, [])
   return (
     <div className="App" onClick={() => {
@@ -40,6 +44,7 @@ function App() {
       });
     }}>
       88
+      <TestComponent></TestComponent>
     </div>
   );
 }

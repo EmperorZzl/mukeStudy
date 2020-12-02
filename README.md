@@ -11,6 +11,7 @@
 
 - [create-react-app之my-react-app](https://github.com/EmperorZzl/mukeStudy/tree/main/my-react-app)
   - [包含Promise介绍](https://segmentfault.com/a/1190000018428848?utm_source=tag-newest)
+  - 手写观察者/发布订阅模式
 
 ## 后端学习记录
 
